@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lx.dao.OrdersMapper">
+    <select id="findAllOrders" resultType="Orders" parameterType="String">
+        select * from orders WHERE uid=#{uid}
+    </select>
+
+    <insert id="submitOrder" parameterType="Orders">
+        INSERT INTO orders VALUES (#{oid},#{ordertime},#{total},#{state},#{address},#{name},#{telephone},#{user.uid})
+    </insert>
+</mapper>
