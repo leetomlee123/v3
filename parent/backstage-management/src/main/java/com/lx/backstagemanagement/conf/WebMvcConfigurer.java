@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -20,33 +21,33 @@ import java.util.List;
 @Configuration
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
-	private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+    private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
 
 
-	// 使用阿里 FastJson 作为JSON MessageConverter
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		FastJsonHttpMessageConverter4 converter = new FastJsonHttpMessageConverter4();
-		FastJsonConfig config = new FastJsonConfig();
-		config.setSerializerFeatures(
-				// 保留空的字段
-				SerializerFeature.WriteMapNullValue,
-				// String null -> ""
-				SerializerFeature.WriteNullStringAsEmpty,
-				// Number null -> 0
-				SerializerFeature.WriteNullNumberAsZero);
-		converter.setFastJsonConfig(config);
-		converter.setDefaultCharset(Charset.forName("UTF-8"));
-		converters.add(converter);
-	}
+    // 使用阿里 FastJson 作为JSON MessageConverter
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        FastJsonHttpMessageConverter4 converter = new FastJsonHttpMessageConverter4();
+        FastJsonConfig config = new FastJsonConfig();
+        config.setSerializerFeatures(
+                // 保留空的字段
+                SerializerFeature.WriteMapNullValue,
+                // String null -> ""
+                SerializerFeature.WriteNullStringAsEmpty,
+                // Number null -> 0
+                SerializerFeature.WriteNullNumberAsZero);
+        converter.setFastJsonConfig(config);
+        converter.setDefaultCharset(Charset.forName("UTF-8"));
+        converters.add(converter);
+    }
 
-	@Bean
-	public Filter characterEncodingFilter() {
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding("UTF-8");
-		characterEncodingFilter.setForceEncoding(true);
-		return characterEncodingFilter;
-	}
+    @Bean
+    public Filter characterEncodingFilter() {
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+        return characterEncodingFilter;
+    }
 
 //	// 统一异常处理
 //	@Override
@@ -88,24 +89,29 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 //	}
 
 
-
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-		registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-		registry.addResourceHandler("/image/**").addResourceLocations("/image/");
-		registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/");
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**").addResourceLocations("/images/");
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+        registry.addResourceHandler("/image/**").addResourceLocations("/image/");
+        registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/");
 //		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 //		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-		super.addResourceHandlers(registry);
-	}
+        super.addResourceHandlers(registry);
+    }
 
 
-
-
-
-
-
-
+//    @Bean
+//    public MultipartResolver multipartResolver() {
+//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+//        resolver.setMaxUploadSize(1000000);
+//        return resolver;
+//    }
 }
+
+
+
+
+
+

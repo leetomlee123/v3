@@ -1,5 +1,7 @@
 package com.lx.backstagemanagement.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.lx.backstagemanagement.RabbitMqProduct.SimpleProduct;
 import com.lx.backstagemanagement.constant.SysKeyWord;
 import com.lx.backstagemanagement.entity.User;
 import com.lx.backstagemanagement.service.impl.UserServiceImpl;
@@ -37,6 +39,7 @@ public class HomeController {
         HttpSession session = request.getSession(false);
         if (users.size() >= 1) {
             session.setAttribute(SysKeyWord.getUserName(), users.get(0));
+
             // model.addAttribute("USER_NAME", users.get(0));
             return "redirect:/index";
         } else {

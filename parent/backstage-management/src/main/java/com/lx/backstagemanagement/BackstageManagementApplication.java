@@ -1,13 +1,13 @@
 package com.lx.backstagemanagement;
 
-import com.lx.backstagemanagement.intercept.UserInterceptor;
+import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.context.annotation.Import;
 
+@Import(FdfsClientConfig.class)
 @SpringBootApplication
 public class BackstageManagementApplication extends SpringBootServletInitializer {
 

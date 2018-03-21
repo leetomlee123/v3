@@ -42,8 +42,13 @@ public class ConfigurationFilter {
             String a = request.getRequestURI();
             if ((a.contains(".png") || a.contains(".jpg") || a.contains(".gif"))) {
                 //如果发现是css或者js文件，直接放行
-                String s = SysKeyWord.getImageAddress() + a;
-                response.sendRedirect(s);
+                if (a.contains("group1/M00")) {
+                    String s = SysKeyWord.getImageDfs() + a;
+                    response.sendRedirect(s);
+                } else {
+                    String s = SysKeyWord.getImageAddress() + a;
+                    response.sendRedirect(s);
+                }
             }
             //在else中放对网页过滤的代码
             else {

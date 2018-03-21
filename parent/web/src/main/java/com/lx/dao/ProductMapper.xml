@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lx.dao.ProductMapper">
-
-    <select id="selectPageList" parameterType="Page" resultType="Product">
-SELECT * from product WHERE cid=#{keyWord} AND pflag=0 ORDER BY pdate DESC limit #{start},#{pageSize}
-    </select>
-    <select id="selectCount" parameterType="Page" resultType="Integer">
-select COUNT(1) from product WHERE cid=#{keyWord} AND pflag=0
-    </select>
     <select id="select" parameterType="Product" resultType="Product">
         select * from product
         <where>
@@ -18,4 +11,37 @@ select COUNT(1) from product WHERE cid=#{keyWord} AND pflag=0
         AND pflag=0
     </select>
 
+    <select id="selectPageList" parameterType="Page" resultType="Product">
+        SELECT * from product
+        <where>
+            <choose>
+                <when test="paramEntity.cid!=null and paramEntity.cid!=''">
+                    cid=#{paramEntity.cid}
+                </when>
+                <otherwise>
+                    <if test="keyWord != null and keyWord != ''">
+                        pname LIKE CONCAT("%",#{keyWord},"%")
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        AND pflag=0 ORDER BY pdate DESC
+        limit #{start},#{pageSize}
+    </select>
+    <select id="selectCount" parameterType="Page" resultType="Integer">
+        select COUNT(1) from product
+        <where>
+            <choose>
+                <when test="paramEntity.cid!=null and paramEntity.cid!=''">
+                    cid=#{paramEntity.cid}
+                </when>
+                <otherwise>
+                    <if test="keyWord != null and keyWord != ''">
+                        pname LIKE CONCAT('%',#{keyWord},'%')
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+        AND pflag=0
+    </select>
 </mapper>

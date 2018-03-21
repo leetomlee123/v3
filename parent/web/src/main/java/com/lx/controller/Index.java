@@ -48,6 +48,7 @@ public class Index {
     @RequestMapping(value = "/index/initCategory")
     public @ResponseBody
     String initCategory() {
+
         Object goodsCateGory = null;
 
         try {

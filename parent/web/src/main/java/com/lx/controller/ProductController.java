@@ -7,6 +7,7 @@ import com.lx.entity.*;
 import com.lx.service.ICategoryService;
 import com.lx.service.IProductService;
 import com.lx.service.ProductService;
+import org.junit.platform.commons.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +30,8 @@ public class ProductController extends BaseController {
 
     @RequestMapping(value = "/productList")
     public String
-    productList(HttpServletRequest request, HttpServletResponse response, String cid, Integer currentPage, Model model) {
-        if (cid == null) {
+    productList(HttpServletRequest request, HttpServletResponse response, String key, String flage, String cid, Integer currentPage, Model model) {
+        if (cid == null && !"1".equals(flage)) {
             model.addAttribute("exception", "参数异常");
             return "exception/404";
         }
@@ -40,12 +41,19 @@ public class ProductController extends BaseController {
         Page<Product> productPage = new Page<Product>();
         productPage.setCurrentPage(currentPage);
         productPage.setPageSize(SysKeyWord.getPageSize());
-
-        productPage.setKeyWord(cid);
+        if (StringUtils.isNotBlank(key)) {
+            productPage.setKeyWord(key);
+            productPage.setParamEntity(new Product());
+        }
+        if (StringUtils.isNotBlank(cid)) {
+            Product p = new Product();
+            p.setCid(cid);
+            productPage.setParamEntity(p);
+        }
         Page<Product> pageBean = productService.selectPage(productPage);
         if (pageBean.getList() == null) {
             model.addAttribute("exception", "数据异常");
-            return "exception/500";
+            return null;
         }
         model.addAttribute("pageBean", pageBean);
         model.addAttribute("cid", cid);
@@ -63,8 +71,10 @@ public class ProductController extends BaseController {
                         Product product = new Product();
                         product.setPid(pid);
 
-                        Product pro = productService.select(product).get(0);
-                        historyProductList.add(pro);
+                        List<Product> select = productService.select(product);
+                        if (select.size() > 0) {
+                            historyProductList.add(select.get(0));
+                        }
                     }
                 }
             }
@@ -226,7 +236,6 @@ public class ProductController extends BaseController {
         session.removeAttribute("cart");
         return "redirect:/product/CartUI";
     }
-
 
 
     @RequestMapping(value = "/CartUI")

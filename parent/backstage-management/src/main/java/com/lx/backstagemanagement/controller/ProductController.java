@@ -1,5 +1,9 @@
 package com.lx.backstagemanagement.controller;
 
+import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.lx.backstagemanagement.RabbitMqProduct.SimpleProduct;
+import com.lx.backstagemanagement.constant.SysKeyWord;
 import com.lx.backstagemanagement.entity.Category;
 import com.lx.backstagemanagement.entity.Product;
 import com.lx.backstagemanagement.service.ICategoryService;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -30,9 +35,13 @@ import java.util.List;
 @RequestMapping(value = "/product")
 public class ProductController {
     @Autowired
+    public FastFileStorageClient fastFileStorageClient;
+    @Autowired
     private IProductService productService;
     @Autowired
     private ICategoryService categoryService;
+    @Autowired
+    private SimpleProduct simpleProduct;
 
     @RequestMapping(value = "/{limit}")
     public String getUsers(@PathVariable("limit") Integer limit, Model model) {
@@ -46,17 +55,15 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/save")
-    public String save(HttpServletRequest request, Product product, @Param("upload") MultipartFile upload) {
+    public String save(HttpServletRequest request, Product product, @Param("upload") MultipartFile upload, HttpSession httpSession) {
         if (upload.getSize() > 0) {
-            String contentType = upload.getContentType();
-            String originalFilename = "products/1/" + upload.getOriginalFilename();
-            String filePath = request.getSession().getServletContext().getRealPath("/" + originalFilename);
+
             try {
-                FileCopyUtils.copy(upload.getBytes(), new File(filePath));
+                StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(upload.getInputStream(), upload.getSize(), upload.getOriginalFilename().split("\\.")[1], null);
+                product.setPimage(storePath.getFullPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            product.setPimage(originalFilename);
             product.setPid(UUIDUtils.getUUID());
             product.setPflag(0);
             Date date = new Date();
@@ -67,6 +74,7 @@ public class ProductController {
                 e.printStackTrace();
             }
             productService.save(product);
+            simpleProduct.sender("product");
         } else {
             return "redirect:/product/0";
         }
@@ -74,14 +82,12 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/edit/{pid}/{num}")
-
     public String editUser(@PathVariable("pid") String pid, Model model, @PathVariable("num") String num) {
         if (StringUtils.isEmpty(pid)) {
             return null;
         }
         Product product = productService.getProductById(pid);
         List<Category> categorys = categoryService.categorys();
-
         model.addAttribute("categorys", categorys);
         //users.getContent().stream().filter(entry -> "1".equals(entry.getUser_category())).collect(Collectors.toList());
         model.addAttribute("model", product);
@@ -93,23 +99,22 @@ public class ProductController {
     public String deleteUser(@PathVariable("uid") String uid) {
 
         productService.delete(uid);
-
+        simpleProduct.sender("product");
         return "redirect:/product/0";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateUser(HttpServletRequest request, @Param("upload") MultipartFile upload, Product product, String num) {
         if (upload.getSize() > 0) {
-            String contentType = upload.getContentType();
-            String originalFilename = upload.getOriginalFilename();
-            String filePath = request.getSession().getServletContext().getRealPath("" + product.getPimage());
             try {
-                FileCopyUtils.copy(upload.getBytes(), new File(filePath));
+                StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(upload.getInputStream(), upload.getSize(), upload.getOriginalFilename().split("\\.")[1], null);
+                product.setPimage(storePath.getFullPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         productService.update(product);
+        simpleProduct.sender("product");
         return "redirect:/product/" + num;
     }
 
@@ -118,15 +123,7 @@ public class ProductController {
         List<Category> categorys = categoryService.categorys();
 
         model.addAttribute("categorys", categorys);
-
         return "product/add";
     }
 
-    @Test
-    public void s() throws ParseException {
-        Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String format = simpleDateFormat.format(date);
-        System.out.println(simpleDateFormat.parse(format));
-    }
 }
