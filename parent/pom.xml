@@ -7,9 +7,9 @@
     <groupId>com.bysl</groupId>
     <artifactId>parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-<modules>
-    <module>web</module>
-    <module>backstage-management</module>
-</modules>
+<packaging>pom</packaging>
+    <modules>
+        <module>web</module>
+        <module>backstage-management</module>
+    </modules>
 </project>

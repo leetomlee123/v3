@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -89,17 +88,17 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 //	}
 
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-        registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-        registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-        registry.addResourceHandler("/image/**").addResourceLocations("/image/");
-        registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/");
-//		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-//		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        super.addResourceHandlers(registry);
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/static/images/**").addResourceLocations("/images/");
+//        registry.addResourceHandler("/static/css/**").addResourceLocations("/css/");
+//        registry.addResourceHandler("/static/js/**").addResourceLocations("/js/");
+//        registry.addResourceHandler("/static/image/**").addResourceLocations("/image/");
+//        registry.addResourceHandler("/WEB-INF/**").addResourceLocations("/WEB-INF/");
+//        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+//        super.addResourceHandlers(registry);
+//    }
 
 
 //    @Bean

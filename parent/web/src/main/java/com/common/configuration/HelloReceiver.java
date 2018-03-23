@@ -12,10 +12,10 @@ public class HelloReceiver {
     public void foo(String hello) {
         System.out.println(hello);
         if (hello.contains("category")) {
-            redisTemplate.delete("goodsCateGory");
+            redisTemplate.opsForValue().set("goodsCateGory", null);
         } else if (hello.contains("product")) {
-            redisTemplate.delete("hotProduct");
-            redisTemplate.delete("newProductList");
+            redisTemplate.opsForValue().set("hotProduct", null);
+            redisTemplate.opsForValue().set("newProductList", null);
         }
     }
 

@@ -55,15 +55,17 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.3</version>
         </dependency>
-        <dependency>
-            <groupId>com.rabbitmq</groupId>
-            <artifactId>amqp-client</artifactId>
-            <version>3.4.1</version>
-        </dependency>
+
+
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
             <version>1.4.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
@@ -268,12 +270,6 @@
             <artifactId>jedis</artifactId>
             <version>2.7.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-            <version>1.7.6.RELEASE</version>
-        </dependency>
-
     </dependencies>
     <build>
         <finalName>ssm</finalName>
@@ -299,6 +295,7 @@
                     <imageName>${project.artifactId}</imageName>
                     <!-- 指定Dockerfile所在的路径 -->
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <dockerHost>http://193.112.113.194:2375</dockerHost>
                     <baseImage>java</baseImage>
                     <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
                     <resources>
@@ -308,6 +305,7 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+
                 </configuration>
             </plugin>
             <plugin>
