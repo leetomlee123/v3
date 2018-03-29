@@ -16,15 +16,16 @@ public class UserInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object obj) throws Exception {
 
 
-        if (request.getRequestURI().equals("/user/login")||request.getRequestURI().equals("/")||request.getRequestURI().equals("/health")) {
+        if (request.getRequestURI().equals("/user/login") || request.getRequestURI().equals("/") || request.getRequestURI().equals("/health")) {
             return true;
         }
         Object sessionObj = request.getSession().getAttribute(SysKeyWord.getUserName());
         if (sessionObj != null) {
             return true;
-        }
+        } else {
 
-        response.sendRedirect("/");
+            response.sendRedirect("/");
+        }
         return false;
     }
 
