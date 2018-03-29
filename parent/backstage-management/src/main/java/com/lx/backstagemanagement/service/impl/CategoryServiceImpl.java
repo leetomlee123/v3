@@ -39,6 +39,8 @@ public class CategoryServiceImpl implements ICategoryService {
     public void deleteCategory(String cid) {
         Category category = new Category();
         category.setCid(cid);
+        int i=0;
+
         categoryDao.delete(category);
 
     }

@@ -10,6 +10,6 @@
 <packaging>pom</packaging>
     <modules>
         <module>web</module>
-        <module>backstage-management</module>
+        <!--<module>backstage-management</module>-->
     </modules>
 </project>
