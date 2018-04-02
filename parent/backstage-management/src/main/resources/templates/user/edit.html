@@ -1,0 +1,93 @@
+<HTML xmlns:th="http://www.thymeleaf.org">
+<HEAD>
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <LINK href="/css/Style1.css" type="text/css" rel="stylesheet">
+</HEAD>
+
+<body>
+<form id="userAction_save_do" name="Form1" th:action="@{/users/update}"
+      method="post">
+    <input type="hidden" name="uid" th:value="${model.uid}"/>
+    <input type="hidden" name="state" th:value="${model.state}"/>
+    <input type="hidden" name="code" th:value="${model.code}"/>
+    &nbsp;
+    <table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee"
+           style="border: 1px solid #8ba7e3" border="0">
+        <tr>
+            <td class="ta_01" align="center" bgColor="#afd1f3" colSpan="4"
+                height="26">
+                <strong><STRONG>编辑用户</STRONG>
+                </strong>
+            </td>
+        </tr>
+        <tr>
+            <td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+                用户名称：
+            </td>
+            <td class="ta_01" bgColor="#ffffff">
+                <input  type="text" name="username" th:value="${model.username}"
+                      class="bg"/>
+            </td>
+            <input type="hidden" name="user_category" th:value="${model.user_category}">
+            <td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+                密码：
+            </td>
+            <td class="ta_01" bgColor="#ffffff">
+                <input type="text" name="password" th:value="${model.password}"
+                       class="bg"/>
+            </td>
+        </tr>
+        <tr>
+            <td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+                真实姓名：
+            </td>
+            <td class="ta_01" bgColor="#ffffff">
+                <input type="text" name="name" th:value="${model.name}"
+                        class="bg"/>
+            </td>
+            <td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+                邮箱：
+            </td>
+            <td class="ta_01" bgColor="#ffffff">
+                <input type="text" name="email" th:value="${model.email}"
+                        class="bg"/>
+            </td>
+        </tr>
+        <tr>
+            <td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
+                电话：
+            </td>
+            <td class="ta_01" bgColor="#ffffff">
+                <input type="text" name="telephone" th:value="${model.telephone}"
+                        class="bg"/>
+            </td>
+            <input type="hidden" name="num" th:value="${num}">
+            <!--<%&#45;&#45;<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">&#45;&#45;%>-->
+                <!--<%&#45;&#45;地址：&#45;&#45;%>-->
+            <!--<%&#45;&#45;</td>&#45;&#45;%>-->
+            <!--<%&#45;&#45;<td class="ta_01" bgColor="#ffffff">&#45;&#45;%>-->
+                <!--<%&#45;&#45;<input type="datetime-local" name="birthday" value="${model.birthday}"&#45;&#45;%>-->
+                       <!--<%&#45;&#45;id="userAction_save_do_logonName" class="bg"/>&#45;&#45;%>-->
+            <!--<%&#45;&#45;</td>&#45;&#45;%>-->
+        </tr>
+
+        <tr>
+            <td class="ta_01" style="WIDTH: 100%" align="center"
+                bgColor="#f5fafe" colSpan="4">
+                <button type="submit" id="userAction_save_do_submit" value="确定" class="button_ok">
+                    &#30830;&#23450;
+                </button>
+
+                <!--<%&#45;&#45;<FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>&#45;&#45;%>-->
+                <!--<%&#45;&#45;<button type="reset" value="重置" class="button_cancel">&#37325;&#32622;</button>&#45;&#45;%>-->
+
+                <FONT face="宋体">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</FONT>
+                <INPUT class="button_ok" type="button" onclick="history.go(-1)" value="返回"/>
+                <span id="Label1"></span>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</HTML>
