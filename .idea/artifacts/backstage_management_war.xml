@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="backstage-management:war">
     <output-path>$PROJECT_DIR$/parent/backstage-management/target</output-path>
-    <root id="archive" name="backstage-management-0.0.1-SNAPSHOT.war">
+    <root id="archive" name="backstage-management-0.0.1-SNAPSOT.war">
       <element id="artifact" artifact-name="backstage-management:war exploded" />
     </root>
   </artifact>
